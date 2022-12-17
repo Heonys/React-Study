@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { produce } from "immer";
 import "../App.css";
 
-let COUNT = 4;
+let COUNT = 1;
 
 const Header = () => {
   const [todoList, setTodoList] = useState([
-    { id: 1, title: "일어나기", completed: false },
-    { id: 2, title: "공부하기", completed: true },
-    { id: 3, title: "잠자기", completed: false },
+    // { id: 1, title: "일어나기", completed: false },
+    // { id: 2, title: "공부하기", completed: true },
+    // { id: 3, title: "잠자기", completed: false },
   ]);
 
   const [curButton, setCurButton] = useState("all");
@@ -44,10 +44,25 @@ const Header = () => {
     setInputText("");
   };
 
+  const onDelete = (event) => {
+    setTodoList((prev) => prev.filter((row) => +row.id !== +event.target.id));
+  };
+
+  useEffect(() => {
+    setTodoList(JSON.parse(localStorage.getItem("todoList")));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+    // JSON.parse(localStorage.getItem('todoList'))
+  }, [todoList]);
+
   return (
-    <>
+    <div className={isDark ? "isDart" : null}>
       <div>
-        <button>{isDark ? "Dark Mode" : "Light Mode"}</button>
+        <button onClick={() => setIsDart((prev) => !prev)}>
+          {isDark ? "Dark Mode" : "Light Mode"}
+        </button>
       </div>
 
       <div style={{ display: "flex" }}>
@@ -75,6 +90,9 @@ const Header = () => {
                 checked={item.completed}
               ></input>
               {item.title}
+              <button id={item.id} onClick={onDelete}>
+                삭제
+              </button>
             </li>
           );
         })}
@@ -90,7 +108,7 @@ const Header = () => {
         />
         <button onClick={addTodoList}>추가</button>
       </div>
-    </>
+    </div>
   );
 };
 

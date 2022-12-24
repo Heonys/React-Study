@@ -1,16 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 import Contents from "components/Contents";
 import Detail from "pages/Detail";
-import Main from "pages/Main";
+import App from "App";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main />,
+    element: <App />,
     errorElement: <div>error</div>,
     children: [
       { index: true, element: <Contents /> },
-      { path: "/detail/:id", element: <Detail /> },
+      { path: "/video", element: <Contents /> },
+      { path: "/video/:keyword", element: <Contents /> },
+      { path: "/video/detail/:id", element: <Detail /> },
     ],
   },
 ]);

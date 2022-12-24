@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import { getFirstApi } from "api/getFirstApi";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 const Contents = () => {
-  const [list, setList] = useState([]);
+  const { keyword } = useParams();
 
   useEffect(() => {
-    (async function () {
-      const data = await getFirstApi();
-      console.log(data);
-      setList(data);
-    })();
-  }, []);
+    console.log("keyword ::", keyword);
+  }, [keyword]);
+
+  const { isLoading, data } = useQuery(["videos", keyword], async () => {
+    return getFirstApi(keyword ? "search" : "popular");
+  });
 
   return (
     <div className="flex flex-wrap justify-center">
-      {list.map((list, index) => {
-        return <Card key={index} list={list} />;
-      })}
+      {isLoading && "로딩중입니다 ... "}
+      {data &&
+        data.map((list, index) => {
+          return <Card key={index} list={list} />;
+        })}
     </div>
   );
 };

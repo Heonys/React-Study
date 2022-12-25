@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
-import { getFirstApi } from "api/getFirstApi";
+import getFakeYouTubeApi from "api/getFakeYouTubeApi";
+// import getYouTubeApi from "api/getYouTubeApi";
+
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
+import { useYoutubeApi } from "context/YoutubeApiContext";
+
 const Contents = () => {
   const { keyword } = useParams();
+  const { youtubeApi } = useYoutubeApi();
 
-  useEffect(() => {
-    console.log("keyword ::", keyword);
-  }, [keyword]);
-
-  const { isLoading, data } = useQuery(["videos", keyword], async () => {
-    return getFirstApi(keyword ? "search" : "popular");
+  const { isLoading, data } = useQuery(["videos", keyword], () => {
+    return youtubeApi.search(keyword);
   });
 
   return (

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const reg = new RegExp(/[&]..../, "g");
 const Card = ({ list }) => {
   const navigate = useNavigate();
-  const { keyword } = useParams();
 
   const onClick = () => {
     navigate(`/video/detail/${list.id}`);

@@ -1,29 +1,23 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { timeAgo } from "util/data";
 
-const reg = new RegExp(/[&]..../, "g");
 const Card = ({ list }) => {
+  const { channelTitle, publishedAt, thumbnails, title } = list.snippet;
+
   const navigate = useNavigate();
 
-  const onClick = () => {
-    navigate(`/video/detail/${list.id}`);
-  };
-
   return (
-    <section className=" card flex flex-col" onClick={onClick}>
-      <img className="w-full h-[60%]  p-1" src={list.snippet.thumbnails.default.url} alt="" />
-      <div className="flex flex-col justify-center flex-1">
-        <div className=" px-1 text-[12px] text-white">
-          {list.snippet.title.replace(reg, "").length > 37
-            ? list.snippet.title.replace(reg, "").substr(0, 37) + "..."
-            : list.snippet.title.replace(reg, "")}
-        </div>
-        <div className="px-1">
-          <div className="text-[10px] text-[#ddd]">{list.snippet.channelTitle}</div>
-          <div className="text-[10px] text-[#ddd]">{list.snippet.publishTime}</div>
+    <div onClick={() => navigate(`/video/detail/${list.id}`, { state: { list } })}>
+      <img className="w-full" src={thumbnails.medium.url} alt="" />
+      <div>
+        <div className="font-semibold text-base line-clamp-2 ">{title}</div>
+        <div>
+          <div className="text-sm opacity-80 ">{channelTitle}</div>
+          <div className="text-sm opacity-80">{timeAgo(publishedAt, "ko")}</div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

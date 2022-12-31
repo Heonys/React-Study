@@ -27,7 +27,13 @@ const Header = () => {
       </Link>
 
       <form action="" onSubmit={onSubmit} className="flex w-full justify-center">
-        <input className="w-7/12 outline-none" placeholder="search..." type="text" value={text} onChange={onChange} />
+        <input
+          className="w-7/12 outline-none bg-black text-gray-50"
+          placeholder="search..."
+          type="text"
+          value={text}
+          onChange={onChange}
+        />
 
         <button className="bg-zinc-600 px-2">
           <AiOutlineSearch color="white" size={20} />
